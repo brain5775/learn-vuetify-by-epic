@@ -47,8 +47,43 @@
                         <h3>Category</h3>
                       </v-list-item>
                     </template>
-
-                    <v-list-item>test</v-list-item>
+                    <v-list-item v-for="cat in category" :key="cat">
+                      <v-list v-for="(CTC, idx) in cat.coding" :key="CTC">
+                        <v-list-group :value="`CategoryCoding-${idx}`">
+                          <template v-slot:activator="{ props }">
+                            <v-list-item v-bind="props">
+                              <h3>Coding</h3>
+                            </v-list-item>
+                          </template>
+                          <v-list-item>
+                            <v-text-field
+                              variant="underlined"
+                              label="System"
+                              v-model="CTC.system"
+                            />
+                            <v-text-field
+                              variant="underlined"
+                              label="Code"
+                              v-model="CTC.code"
+                            />
+                            <v-text-field
+                              variant="underlined"
+                              label="Display"
+                              v-model="CTC.display"
+                            />
+                          </v-list-item>
+                        </v-list-group>
+                      </v-list>
+                      <v-list>
+                        <v-list-item>
+                          <v-text-field
+                            variant="underlined"
+                            label="Text"
+                            v-model="cat.text"
+                          />
+                        </v-list-item>
+                      </v-list>
+                    </v-list-item>
                   </v-list-group>
                 </v-list>
               </v-col>
@@ -60,7 +95,43 @@
                         <h3>Code</h3>
                       </v-list-item>
                     </template>
-                    <v-list-item>test</v-list-item>
+                    <v-list-item>
+                      <v-list v-for="(CDG, idx) in codeData.coding" :key="CDG">
+                        <v-list-group :value="`CodingData-${idx}`">
+                          <template v-slot:activator="{ props }">
+                            <v-list-item v-bind="props">
+                              <h3>Coding</h3>
+                            </v-list-item>
+                          </template>
+                          <v-list-item>
+                            <v-text-field
+                              variant="underlined"
+                              label="System"
+                              v-model="CDG.system"
+                            />
+                            <v-text-field
+                              variant="underlined"
+                              label="Code"
+                              v-model="CDG.code"
+                            />
+                            <v-text-field
+                              variant="underlined"
+                              label="Display"
+                              v-model="CDG.display"
+                            />
+                          </v-list-item>
+                        </v-list-group>
+                      </v-list>
+                      <v-list>
+                        <v-list-item>
+                          <v-text-field
+                            variant="underlined"
+                            label="Text"
+                            v-model="codeData.text"
+                          />
+                        </v-list-item>
+                      </v-list>
+                    </v-list-item>
                   </v-list-group>
                 </v-list>
               </v-col>
@@ -72,7 +143,13 @@
                         <h3>Encounter</h3>
                       </v-list-item>
                     </template>
-                    <v-list-item>Reference</v-list-item>
+                    <v-list-item>
+                      <v-text-field
+                        variant="underlined"
+                        label="Reference"
+                        v-model="encounterReference.reference"
+                      />
+                    </v-list-item>
                   </v-list-group>
                 </v-list>
               </v-col>
@@ -84,8 +161,17 @@
                         <h3>Subject</h3>
                       </v-list-item>
                     </template>
-                    <v-list-item v-for="sub in subject" :key="sub">
-                      <v-text-field />
+                    <v-list-item>
+                      <v-text-field
+                        variant="underlined"
+                        label="Reference"
+                        v-model="subject.reference"
+                      />
+                      <v-text-field
+                        variant="underlined"
+                        label="Display"
+                        v-model="subject.display"
+                      />
                     </v-list-item>
                   </v-list-group>
                 </v-list>
@@ -109,16 +195,16 @@
                         <h3>Value Quantity</h3>
                       </v-list-item>
                     </template>
-                    <v-list-item v-for="VQ in valueQuantity" :key="VQ">
+                    <v-list-item>
                       <v-text-field
                         variant="underlined"
                         label="Value"
-                        v-model="VQ.value"
+                        v-model="valueQuantity.value"
                       />
                       <v-text-field
                         variant="underlined"
                         label="Unit"
-                        v-model="VQ.unit"
+                        v-model="valueQuantity.unit"
                       />
                     </v-list-item>
                   </v-list-group>
@@ -162,13 +248,13 @@ import { useStore } from "vuex";
 const route = useRoute();
 const store = useStore();
 
-const open = ref();
-
-const cruds = ref([
-  ["Create", "mdi-plus-outline"],
-  ["Read", "mdi-file-outline"],
-  ["Update", "mdi-update"],
-  ["Delete", "mdi-delete"],
+const open = ref([
+  "categoryModal",
+  "codeModal",
+  "encounterModal",
+  "subjectModal",
+  "valueQuantityModal",
+  "noteModal",
 ]);
 
 const code = ref();
@@ -176,7 +262,13 @@ const accessToken = ref();
 const patient = ref();
 const patientData = ref({});
 const clientId = ref("5105c355-5e30-4435-9d8c-e6ddbe8fe2fe");
-const redirect = ref("http://localhost:3000");
+
+const redirect = ref(
+  import.meta.env.PROD
+    ? "https://learn-vuetify-by-epic-4lj8rzi60-brain5775.vercel.app/"
+    : "http://localhost:3000"
+);
+
 const authorize = ref(
   "https://fhir.epic.com/interconnect-fhir-oauth/oauth2/authorize"
 );
@@ -257,9 +349,9 @@ const formatDate = async (val) => {
 const urlTemplate = ref(
   "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/Observation"
 );
-/* RESOURCE TYPE */
+
+/* DATA */
 const resourceType = ref("Observation");
-/* CATEGORY DATA */
 const category = reactive([
   {
     coding: [
@@ -272,20 +364,46 @@ const category = reactive([
     text: "Vital Signs",
   },
 ]);
-
-const categoryData = ref();
-const encounterData = ref();
-const codeData = ref();
-
-const subject = reactive([
-  { reference: "Patient/eAB3mDIBBcyUKviyzrxsnAw3", display: "Desiree Powell" },
-]);
-const valueQuantity = reactive([{ value: 65, unit: "KG" }]);
+const codeData = reactive({
+  coding: [
+    {
+      system: "urn:oid:1.2.840.114350.1.13.0.1.7.2.707679",
+      code: 14,
+      display: "Weight",
+    },
+  ],
+  text: "Weight",
+});
+const encounterReference = reactive({
+  reference: "Encounter/es09oReoYsZk20hcbnd7r4A3",
+});
+const subject = reactive({
+  reference: "Patient/eAB3mDIBBcyUKviyzrxsnAw3",
+  display: "Desiree Powell",
+});
+const valueQuantity = reactive({ value: 65, unit: "KG" });
 const effectiveDateTime = ref("2019-07-29T12:30:00Z");
 const note = reactive([{ text: "Filed via FHIR" }]);
-
+/* Functions */
 const submit = () => {
-  console.log(codeData.value);
+  axios.post(
+    urlTemplate,
+    {
+      resourceType: resourceType.value,
+      category: category,
+      code: codeData,
+      encounter: encounterReference,
+      subject: subject,
+      effectiveDateTime: effectiveDateTime.value,
+      valueQuantity: valueQuantity,
+      note: note,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken.value}`,
+      },
+    }
+  );
 };
 </script>
 

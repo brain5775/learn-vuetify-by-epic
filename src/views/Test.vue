@@ -1,50 +1,43 @@
-<v-card variant="plain">
-                  <v-card-title> Category </v-card-title>
-                  <v-card-text>
-                    <v-expansion-panels
-                      multiple
-                      variant="accordion"
-                      class="my-4"
-                      theme="dark"
-                    >
-                      <v-expansion-panel
-                        v-for="(cat, id) of category"
-                        :key="id"
-                      >
-                        <v-expansion-panel-title>
-                          <h4>Coding</h4>
-                        </v-expansion-panel-title>
-                        <v-expansion-panel-text>
-                          <v-card variant="plain">
-                            <v-card-item v-for="cd in cat.coding" :key="cd">
-                              <v-text-field
-                                variant="underlined"
-                                label="System"
-                                v-model="cd.system"
-                              />
-                              <v-text-field
-                                variant="underlined"
-                                label="Code"
-                                v-model="cd.code"
-                              />
-                              <v-text-field
-                                variant="underlined"
-                                label="Display"
-                                v-model="cd.display"
-                              />
-                            </v-card-item>
-                          </v-card>
-                        </v-expansion-panel-text>
-                        <v-expansion-panel-text>
-                          <v-card-item>
-                            <v-text-field
-                              variant="underlined"
-                              label="Text"
-                              v-model="cat.text"
-                            />
-                          </v-card-item>
-                        </v-expansion-panel-text>
-                      </v-expansion-panel>
-                    </v-expansion-panels>
-                  </v-card-text>
-                </v-card>
+<template>
+  <div></div>
+</template>
+
+<script setup>
+import { reactive } from "vue";
+
+const test = reactive({
+  resourceType: "Observation",
+  category: [
+    {
+      coding: [
+        {
+          system: "http://hl7.org/fhir/observation-category",
+          code: "vital-signs",
+          display: "Vital Signs",
+        },
+      ],
+      text: "Vital Signs",
+    },
+  ],
+  code: {
+    coding: [
+      {
+        system: "urn:oid:1.2.840.114350.1.13.0.1.7.2.707679",
+        code: "14",
+        display: "Weight",
+      },
+    ],
+    text: "Weight",
+  },
+  encounter: { reference: "Encounter/es09oReoYsZk20hcbnd7r4A3" },
+  subject: {
+    reference: "Patient/eAB3mDIBBcyUKviyzrxsnAw3",
+    display: "Desiree Powell",
+  },
+  effectiveDateTime: "2019-07-29T12:30:00Z",
+  valueQuantity: { value: "65", unit: "kg" },
+  note: [{ text: "Filed via FHIR" }],
+});
+</script>
+
+<style lang="scss" scoped></style>
