@@ -265,7 +265,7 @@ const clientId = ref("5105c355-5e30-4435-9d8c-e6ddbe8fe2fe");
 
 const redirect = ref(
   import.meta.env.PROD
-    ? "https://learn-vuetify-by-epic-4lj8rzi60-brain5775.vercel.app/"
+    ? "learn-vuetify-by-epic-git-main-brain5775.vercel.app"
     : "http://localhost:3000"
 );
 
@@ -385,25 +385,29 @@ const valueQuantity = reactive({ value: 65, unit: "KG" });
 const effectiveDateTime = ref("2019-07-29T12:30:00Z");
 const note = reactive([{ text: "Filed via FHIR" }]);
 /* Functions */
-const submit = () => {
-  axios.post(
-    urlTemplate,
-    {
-      resourceType: resourceType.value,
-      category: category,
-      code: codeData,
-      encounter: encounterReference,
-      subject: subject,
-      effectiveDateTime: effectiveDateTime.value,
-      valueQuantity: valueQuantity,
-      note: note,
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken.value}`,
+const submit = async () => {
+  try {
+    await axios.post(
+      urlTemplate,
+      {
+        resourceType: resourceType.value,
+        category: category,
+        code: codeData,
+        encounter: encounterReference,
+        subject: subject,
+        effectiveDateTime: effectiveDateTime.value,
+        valueQuantity: valueQuantity,
+        note: note,
       },
-    }
-  );
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken.value}`,
+        },
+      }
+    );
+  } catch (err) {
+    console.log(err.code);
+  }
 };
 </script>
 
