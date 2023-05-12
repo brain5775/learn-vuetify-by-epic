@@ -261,7 +261,7 @@ const code = ref();
 const accessToken = ref();
 const patient = ref();
 const patientData = ref({});
-const clientId = ref("5105c355-5e30-4435-9d8c-e6ddbe8fe2fe");
+const clientId = ref("2902ad9e-c441-445c-8bc6-b9838064653d");
 
 const redirect = ref(
   import.meta.env.PROD
