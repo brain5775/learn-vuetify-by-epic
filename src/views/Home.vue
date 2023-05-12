@@ -271,6 +271,8 @@ const redirect = ref(
     : "http://localhost:3000"
 );
 
+const clientId = ref(import.meta.env.PROD ? prodId.value : nonProdId.value);
+
 const authorize = ref(
   "https://fhir.epic.com/interconnect-fhir-oauth/oauth2/authorize"
 );
@@ -283,7 +285,7 @@ state.value = uid(10);
 
 const authorizeLink = computed(
   () =>
-    `${authorize.value}?response_type=code&client_id=${nonProdId.value}&state=${state.value}&redirect_uri=${redirect.value}`
+    `${authorize.value}?response_type=code&client_id=${clientId.value}&state=${state.value}&redirect_uri=${redirect.value}`
 );
 
 onMounted(async () => {
@@ -296,7 +298,7 @@ onMounted(async () => {
     params.append("grant_type", "authorization_code");
     params.append("redirect_uri", redirect.value);
     params.append("code", code.value);
-    params.append("client_id", nonProdId.value);
+    params.append("client_id", clientId.value);
     params.append("state", state.value);
 
     const config = {
