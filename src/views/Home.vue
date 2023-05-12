@@ -261,7 +261,8 @@ const code = ref();
 const accessToken = ref();
 const patient = ref();
 const patientData = ref({});
-const clientId = ref("2902ad9e-c441-445c-8bc6-b9838064653d");
+const prodId = ref("2902ad9e-c441-445c-8bc6-b9838064653d");
+const nonProdId = ref("5105c355-5e30-4435-9d8c-e6ddbe8fe2fe");
 
 const redirect = ref(
   import.meta.env.PROD
@@ -278,7 +279,7 @@ const tokenUrl = ref(
 
 const authorizeLink = computed(
   () =>
-    `${authorize.value}?response_type=code&client_id=${clientId.value}&state=abc123&redirect_uri=${redirect.value}`
+    `${authorize.value}?response_type=code&client_id=${nonProdId.value}&state=abc123&redirect_uri=${redirect.value}`
 );
 
 onMounted(async () => {
@@ -291,7 +292,7 @@ onMounted(async () => {
     params.append("grant_type", "authorization_code");
     params.append("redirect_uri", redirect.value);
     params.append("code", code.value);
-    params.append("client_id", clientId.value);
+    params.append("client_id", nonProdId.value);
     params.append("state", "abc123");
 
     const config = {
