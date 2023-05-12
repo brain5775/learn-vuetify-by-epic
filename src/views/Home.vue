@@ -241,6 +241,7 @@
 
 <script setup>
 import axios from "axios";
+import { uid } from "uid";
 import { ref, computed, onMounted, reactive } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
@@ -277,9 +278,12 @@ const tokenUrl = ref(
   "https://fhir.epic.com/interconnect-fhir-oauth/oauth2/token"
 );
 
+const state = ref();
+state.value = uid(10);
+
 const authorizeLink = computed(
   () =>
-    `${authorize.value}?response_type=code&client_id=${nonProdId.value}&state=abc123&redirect_uri=${redirect.value}`
+    `${authorize.value}?response_type=code&client_id=${nonProdId.value}&state=${state}&redirect_uri=${redirect.value}`
 );
 
 onMounted(async () => {
@@ -293,7 +297,7 @@ onMounted(async () => {
     params.append("redirect_uri", redirect.value);
     params.append("code", code.value);
     params.append("client_id", nonProdId.value);
-    params.append("state", "abc123");
+    params.append("state", state);
 
     const config = {
       headers: {
