@@ -283,7 +283,7 @@ state.value = uid(10);
 
 const authorizeLink = computed(
   () =>
-    `${authorize.value}?response_type=code&client_id=${nonProdId.value}&state=${state}&redirect_uri=${redirect.value}`
+    `${authorize.value}?response_type=code&client_id=${nonProdId.value}&state=${state.value}&redirect_uri=${redirect.value}`
 );
 
 onMounted(async () => {
@@ -297,7 +297,7 @@ onMounted(async () => {
     params.append("redirect_uri", redirect.value);
     params.append("code", code.value);
     params.append("client_id", nonProdId.value);
-    params.append("state", state);
+    params.append("state", state.value);
 
     const config = {
       headers: {
