@@ -261,12 +261,12 @@ const code = ref();
 const accessToken = ref();
 const patient = ref();
 const patientData = ref({});
-const prodId = ref("2902ad9e-c441-445c-8bc6-b9838064653d");
-const nonProdId = ref("5105c355-5e30-4435-9d8c-e6ddbe8fe2fe");
+const prodId = ref("5d4926c7-f1ed-4cd9-86c7-391bd2f604cc");
+const nonProdId = ref("d629aaa9-fcc9-41af-939d-f66b5545da29");
 
 const redirect = ref(
   import.meta.env.PROD
-    ? "learn-vuetify-by-epic-git-main-brain5775.vercel.app"
+    ? "https://learn-vuetify-by-epic-brain5775.vercel.app/"
     : "http://localhost:3000"
 );
 
