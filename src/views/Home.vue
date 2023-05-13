@@ -3,10 +3,9 @@
     <v-card variant="plain">
       <v-card-item class="text-center">
         <v-btn
-          v-bind:href="authorizeLink"
-          target="_blank"
           v-if="!accessToken"
           color="deep-purple-darken-3"
+          @click="goAuthorize"
         >
           Authorize
         </v-btn>
@@ -245,6 +244,7 @@ import { uid } from "uid";
 import { ref, computed, onMounted, reactive } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
+import FHIR from "fhirclient";
 
 const route = useRoute();
 const store = useStore();
@@ -284,6 +284,16 @@ const tokenUrl = ref(
 const state = ref();
 // state.value = uid(10);
 state.value = "Asdfa1321231";
+
+const goAuthorize = () => {
+  FHIR.oauth2.authorize({
+    client_id: clientId.value,
+    scope:
+      "PATIENT.READ, PATIENT.SEARCH, OBSERVATION.CREATE,OBSERVATION.SEARCH,OBSERVATION.READ",
+    redirectUri: redirect.value,
+    iss: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/",
+  });
+};
 
 const authorizeLink = computed(
   () =>
