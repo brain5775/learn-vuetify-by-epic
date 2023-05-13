@@ -267,7 +267,7 @@ const nonProdId = ref("75b02f74-0533-46a9-8f2c-54793e00b522");
 
 const redirect = ref(
   import.meta.env.PROD
-    ? "https://learn-vuetify-by-epic-brain5775.vercel.app/"
+    ? "https://learn-vuetify-by-epic-git-main-brain5775.vercel.app"
     : "http://localhost:3000"
 );
 
@@ -291,6 +291,7 @@ const goAuthorize = () => {
     scope: "patient/*.read",
     redirectUri: redirect.value,
     iss: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/",
+    aud: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/",
   });
 };
 
