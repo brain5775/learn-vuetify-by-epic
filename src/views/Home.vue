@@ -289,7 +289,7 @@ const goAuthorize = () => {
   FHIR.oauth2.authorize({
     client_id: clientId.value,
     scope:
-      "PATIENT.READ, PATIENT.SEARCH, OBSERVATION.CREATE,OBSERVATION.SEARCH,OBSERVATION.READ",
+      "patient/*.read,patient/*.search,observation/*.read,observation/*.create,observation/*.search",
     redirectUri: redirect.value,
     iss: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/",
   });
