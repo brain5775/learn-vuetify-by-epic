@@ -271,7 +271,8 @@ const redirect = ref(
     : "http://localhost:3000"
 );
 
-const clientId = ref(import.meta.env.PROD ? prodId.value : nonProdId.value);
+// const clientId = ref(import.meta.env.PROD ? prodId.value : nonProdId.value);
+const clientId = ref(nonProdId.value);
 
 const authorize = ref(
   "https://fhir.epic.com/interconnect-fhir-oauth/oauth2/authorize"
@@ -281,7 +282,8 @@ const tokenUrl = ref(
 );
 
 const state = ref();
-state.value = uid(10);
+// state.value = uid(10);
+state.value = "Asdfa1321231";
 
 const authorizeLink = computed(
   () =>
