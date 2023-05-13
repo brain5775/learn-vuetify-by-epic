@@ -288,8 +288,7 @@ state.value = "Asdfa1321231";
 const goAuthorize = () => {
   FHIR.oauth2.authorize({
     client_id: clientId.value,
-    scope:
-      "patient/*.read,patient/*.search,observation/*.read,observation/*.create,observation/*.search",
+    scope: "patient/*.read",
     redirectUri: redirect.value,
     iss: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/",
   });
