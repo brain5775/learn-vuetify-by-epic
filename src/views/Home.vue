@@ -286,12 +286,12 @@ const tokenUrl = ref(
 
 const state = ref();
 // state.value = uid(10);
-state.value = "Asdfa1321231";
+state.value = "Asdfa133";
 
 const goAuthorize = () => {
   FHIR.oauth2.authorize({
     client_id: clientId.value,
-    scope: "observation/*.create",
+    // scope: "observation/*.create",
     redirectUri: redirect.value,
     iss: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
     aud: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
@@ -322,11 +322,7 @@ onMounted(async () => {
       },
     };
     await axios
-      .post(
-        "https://fhir.epic.com/interconnect-fhir-oauth/oauth2/token",
-        params,
-        config
-      )
+      .post(tokenUrl.value, params, config)
       .then((response) => {
         accessToken.value = response.data.access_token;
         patient.value = response.data.patient;
