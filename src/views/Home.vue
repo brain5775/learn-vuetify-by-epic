@@ -405,7 +405,7 @@ const note = reactive([{ text: "Filed via FHIR" }]);
 /* Functions */
 const submit = async () => {
   try {
-    await axios.post(
+    const response = await axios.post(
       urlTemplate.value,
       {
         resourceType: resourceType.value,
@@ -423,22 +423,26 @@ const submit = async () => {
         },
       }
     );
-    let timerInterval;
-    Swal.fire({
-      title: "Data Send Successfully",
-      timer: 2000,
-      timerProgressBar: true,
-      icon: "success",
-      didOpen: () => {
-        // Swal.showLoading();
-        timerInterval = setInterval(() => {
-          Swal.getTimerLeft();
-        }, 100);
-      },
-      willClose: () => {
-        clearInterval(timerInterval);
-      },
-    });
+    if (response) {
+      let timerInterval;
+      Swal.fire({
+        title: "Data Send Successfully",
+        timer: 2000,
+        timerProgressBar: true,
+        icon: "success",
+        didOpen: () => {
+          // Swal.showLoading();
+          timerInterval = setInterval(() => {
+            Swal.getTimerLeft();
+          }, 100);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      });
+      console.log(response);
+      console.log(response.data);
+    }
   } catch (err) {
     console.log(err.code);
   }
