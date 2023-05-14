@@ -245,6 +245,7 @@ import { ref, computed, onMounted, reactive } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 import FHIR from "fhirclient";
+import Swal from "sweetalert2";
 
 const route = useRoute();
 const store = useStore();
@@ -262,8 +263,9 @@ const code = ref();
 const accessToken = ref();
 const patient = ref();
 const patientData = ref({});
-const prodId = ref("ef2a542f-6bc4-4cbf-85f7-e4a1e667cf75");
+// const prodId = ref("ef2a542f-6bc4-4cbf-85f7-e4a1e667cf75");
 // const nonProdId = ref("75b02f74-0533-46a9-8f2c-54793e00b522");
+const prodId = ref("dfd822bb-358a-4b32-bc9f-641d91fec5b4");
 const nonProdId = ref("99d47a03-76c7-4d15-87e1-93994e9cb4d5");
 
 const redirect = ref(
@@ -289,7 +291,7 @@ state.value = "Asdfa1321231";
 const goAuthorize = () => {
   FHIR.oauth2.authorize({
     client_id: clientId.value,
-    scope: "patient/*.read",
+    scope: "observation/*.create",
     redirectUri: redirect.value,
     iss: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
     aud: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
@@ -408,7 +410,7 @@ const note = reactive([{ text: "Filed via FHIR" }]);
 const submit = async () => {
   try {
     await axios.post(
-      urlTemplate,
+      urlTemplate.value,
       {
         resourceType: resourceType.value,
         category: category,
@@ -425,6 +427,22 @@ const submit = async () => {
         },
       }
     );
+    let timerInterval;
+    Swal.fire({
+      title: "Data Send Successfully",
+      timer: 2000,
+      timerProgressBar: true,
+      icon: "success",
+      didOpen: () => {
+        // Swal.showLoading();
+        timerInterval = setInterval(() => {
+          Swal.getTimerLeft();
+        }, 100);
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+      },
+    });
   } catch (err) {
     console.log(err.code);
   }
