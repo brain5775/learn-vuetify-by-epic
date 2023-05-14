@@ -270,7 +270,7 @@ const nonProdId = ref("99d47a03-76c7-4d15-87e1-93994e9cb4d5");
 
 const redirect = ref(
   import.meta.env.PROD
-    ? "https://learn-vuetify-by-epic-git-main-brain5775.vercel.app"
+    ? "https://learn-vuetify-by-epic.vercel.app/"
     : "http://localhost:3000"
 );
 
