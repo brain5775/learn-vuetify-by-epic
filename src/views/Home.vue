@@ -307,7 +307,6 @@ onMounted(async () => {
   localStorage.clear();
   code.value = route.query.code;
   accessToken.value = localStorage.getItem("token");
-  patient.value = localStorage.getItem("patient");
   if (code.value) {
     const params = new URLSearchParams();
     params.append("grant_type", "authorization_code");
