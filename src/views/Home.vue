@@ -326,7 +326,8 @@ onMounted(async () => {
       .then((response) => {
         accessToken.value = response.data.access_token;
         localStorage.setItem("token", response.data.access_token);
-        localStorage.setItem("USER", response.data);
+        // localStorage.setItem("USER", response.data);
+        console.log("AUTHORIZE DATA: ", response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -346,7 +347,7 @@ const showPatient = async () => {
     );
     const data = response.data;
     patientData.value = data;
-    console.log(patientData.value);
+    console.log("PATIENT DATA: ", patientData.value);
   } catch (error) {
     console.log(error);
   }
