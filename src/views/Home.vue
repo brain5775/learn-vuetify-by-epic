@@ -261,7 +261,7 @@ const open = ref([
 
 const code = ref();
 const accessToken = ref();
-const patient = ref();
+const patient = ref("ezHbeFCm6Ih8kgxuHUAdvJQ3");
 const patientData = ref({});
 // const prodId = ref("ef2a542f-6bc4-4cbf-85f7-e4a1e667cf75");
 // const nonProdId = ref("75b02f74-0533-46a9-8f2c-54793e00b522");
@@ -325,9 +325,8 @@ onMounted(async () => {
       .post(tokenUrl.value, params, config)
       .then((response) => {
         accessToken.value = response.data.access_token;
-        patient.value = response.data.patient;
         localStorage.setItem("token", response.data.access_token);
-        localStorage.setItem("patient", response.data.patient);
+        localStorage.setItem("USER", response.data);
       })
       .catch((error) => {
         console.log(error);
