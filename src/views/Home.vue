@@ -1,17 +1,29 @@
 <template>
   <v-container>
     <v-card variant="plain">
-      <v-card-item class="text-center">
-        <v-btn
-          v-if="!accessToken"
-          color="deep-purple-darken-3"
-          @click="goAuthorize"
-        >
+      <v-card-item class="text-center" v-if="!accessToken">
+        <v-btn color="deep-purple-darken-3" @click="goAuthorize" flat>
           Authorize
         </v-btn>
-        <v-btn @click="showPatient" color="light-blue-darken-2" v-else
-          >Show Patient</v-btn
-        >
+      </v-card-item>
+      <v-card-item v-else>
+        <v-row>
+          <v-col>
+            <v-btn @click="showPatient" color="light-blue-darken-2" flat>
+              Show Patient
+            </v-btn>
+          </v-col>
+          <v-col>
+            <v-btn @click="showObservation" color="light-blue-darken-2" flat>
+              Show Observation
+            </v-btn>
+          </v-col>
+          <v-col>
+            <v-btn @click="showToday" color="light-blue-darken2" flat>
+              Today
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-card-item>
     </v-card>
     <v-card theme="light">
@@ -261,10 +273,7 @@ const open = ref([
 
 const code = ref();
 const accessToken = ref();
-const patient = ref("ezHbeFCm6Ih8kgxuHUAdvJQ3");
-const patientData = ref({});
-// const prodId = ref("ef2a542f-6bc4-4cbf-85f7-e4a1e667cf75");
-// const nonProdId = ref("75b02f74-0533-46a9-8f2c-54793e00b522");
+
 const prodId = ref("dfd822bb-358a-4b32-bc9f-641d91fec5b4");
 const nonProdId = ref("99d47a03-76c7-4d15-87e1-93994e9cb4d5");
 
@@ -291,7 +300,6 @@ state.value = "Asdfa133";
 const goAuthorize = () => {
   FHIR.oauth2.authorize({
     client_id: clientId.value,
-    // scope: "observation/*.create",
     redirectUri: redirect.value,
     iss: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
     aud: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
@@ -334,6 +342,9 @@ onMounted(async () => {
   }
 });
 
+const patient = ref("eAB3mDIBBcyUKviyzrxsnAw3");
+const observationCategory = ref("vital-signs");
+const patientData = ref({});
 const showPatient = async () => {
   try {
     const response = await axios.get(
@@ -347,6 +358,28 @@ const showPatient = async () => {
     const data = response.data;
     patientData.value = data;
     console.log("PATIENT DATA: ", patientData.value);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const showToday = () => {
+  console.log(new Date());
+};
+
+const showObservation = async () => {
+  console.log(patient.value);
+  try {
+    const response = await axios.post(
+      `https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/Observation?patient=${patient.value}&category=${observationCategory.value}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken.value}`,
+        },
+      }
+    );
+    console.log(response);
+    console.log(response.data);
   } catch (error) {
     console.log(error);
   }
@@ -440,7 +473,7 @@ const submit = async () => {
         },
       });
       console.log(response);
-      console.log(response.data);
+      console.log(response.headers.location);
     }
   } catch (err) {
     console.log(err.code);
