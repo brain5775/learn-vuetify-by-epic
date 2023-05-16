@@ -368,9 +368,8 @@ const showToday = () => {
 };
 
 const showObservation = async () => {
-  console.log(patient.value);
   try {
-    const response = await axios.post(
+    const response = await axios.get(
       `https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/Observation?patient=${patient.value}&category=${observationCategory.value}`,
       {
         headers: {
