@@ -211,6 +211,7 @@
       </v-form>
     </v-card-item>
     <v-card-item>
+      <h3>Response Header</h3>
       <pre class="output">{{ output }}</pre>
     </v-card-item>
   </v-card>
