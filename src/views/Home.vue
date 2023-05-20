@@ -260,7 +260,6 @@ import FHIR from "fhirclient";
 import Swal from "sweetalert2";
 
 const route = useRoute();
-const store = useStore();
 
 const open = ref([
   "categoryModal",
@@ -274,15 +273,6 @@ const open = ref([
 const code = ref();
 const accessToken = ref();
 
-const prodId = ref("dfd822bb-358a-4b32-bc9f-641d91fec5b4");
-const nonProdId = ref("99d47a03-76c7-4d15-87e1-93994e9cb4d5");
-
-const redirect = ref(
-  import.meta.env.PROD
-    ? "https://learn-vuetify-by-epic.vercel.app/"
-    : "http://localhost:3000"
-);
-
 // const clientId = ref(import.meta.env.PROD ? prodId.value : nonProdId.value);
 const clientId = ref(nonProdId.value);
 
@@ -293,54 +283,10 @@ const tokenUrl = ref(
   "https://fhir.epic.com/interconnect-fhir-oauth/oauth2/token"
 );
 
-const state = ref();
-// state.value = uid(10);
-state.value = "Asdfa133";
-
-const goAuthorize = () => {
-  FHIR.oauth2.authorize({
-    client_id: clientId.value,
-    redirectUri: redirect.value,
-    iss: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
-    aud: "https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4",
-  });
-};
-
 const authorizeLink = computed(
   () =>
     `${authorize.value}?response_type=code&client_id=${clientId.value}&state=${state.value}&redirect_uri=${redirect.value}`
 );
-
-onMounted(async () => {
-  localStorage.clear();
-  code.value = route.query.code;
-  accessToken.value = localStorage.getItem("token");
-  if (code.value) {
-    const params = new URLSearchParams();
-    params.append("grant_type", "authorization_code");
-    params.append("redirect_uri", redirect.value);
-    params.append("code", code.value);
-    params.append("client_id", clientId.value);
-    params.append("state", state.value);
-
-    const config = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    };
-    await axios
-      .post(tokenUrl.value, params, config)
-      .then((response) => {
-        accessToken.value = response.data.access_token;
-        localStorage.setItem("token", response.data.access_token);
-        // localStorage.setItem("USER", response.data);
-        console.log("AUTHORIZE DATA: ", response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-});
 
 const patient = ref("eAB3mDIBBcyUKviyzrxsnAw3");
 const observationCategory = ref("vital-signs");
