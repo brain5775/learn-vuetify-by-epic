@@ -119,7 +119,7 @@ const newOpt = {
       value: "#000",
     },
   },
-  fpsLimit: 144,
+  fpsLimit: 30,
   fullScreen: {
     enable: true,
   },
