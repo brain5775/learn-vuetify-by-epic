@@ -27,7 +27,7 @@
 import router from "@/router";
 const logout = () => {
   localStorage.clear();
-  router.go(0);
+  router.push({ name: "SignIn" });
 };
 </script>
 
