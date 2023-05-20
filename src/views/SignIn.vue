@@ -11,7 +11,6 @@
             <v-btn color="deep-purple-darken-3" @click.prevent="signIn()" flat>
               Authorize
             </v-btn>
-            {{ exp }}
           </v-card-item>
         </v-col>
       </v-row>
@@ -29,7 +28,6 @@ import ParticleVue from "@/components/Particle.vue";
 const route = useRoute();
 
 const code = ref();
-const exp = computed(() => store.state.tokenExp);
 
 const signIn = () => {
   FHIR.oauth2.authorize({
