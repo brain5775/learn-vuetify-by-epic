@@ -1,14 +1,20 @@
 <template>
   <v-container class="main-container">
     <ParticleVue />
-    <v-card width="400px" class="text-center">
-      <v-card-title> Login </v-card-title>
-      <v-card-item>
-        <v-btn color="deep-purple-darken-3" @click.prevent="signIn()" flat>
-          Authorize
-        </v-btn>
-        {{ exp }}
-      </v-card-item>
+    <v-card width="400px" height="400px" class="text-center">
+      <v-row class="fill-height" align="center">
+        <v-col cols="12">
+          <v-card-title>
+            <h2>Login</h2>
+          </v-card-title>
+          <v-card-item>
+            <v-btn color="deep-purple-darken-3" @click.prevent="signIn()" flat>
+              Authorize
+            </v-btn>
+            {{ exp }}
+          </v-card-item>
+        </v-col>
+      </v-row>
     </v-card>
   </v-container>
 </template>
@@ -45,6 +51,9 @@ onMounted(() => {
 <style scoped>
 .main-container {
   min-height: 100vh;
+  max-height: 100vh;
+  height: 100vh;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
